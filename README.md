@@ -47,40 +47,42 @@ APIKEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ## 📂 项目目录结构说明
 
-本项目代码按照学习路径分为以下几个模块：
+本项目代码按照功能模块进行了分类整理：
 
-### 1. 基础 API 测试
-- `test_api_key.py`: 测试阿里云 API Key 是否配置正确。
-- `test_openAI.py`: 使用 OpenAI 兼容接口调用通义千问模型。
+### 📁 00_basics (基础入门)
+- `test_api_key.py`: 测试阿里云 API Key 配置。
+- `test_openAI.py`: 使用 OpenAI 兼容接口调用通义千问。
+- `test_json_basics.py`: JSON 解析基础测试。
 
-### 2. LangChain 核心组件
-- **Models (模型调用)**
-  - `langchain_aliyun_llms.py`: 基础 LLM 调用。
-  - `langchain_aliyun_chat_model.py`: Chat Model 调用 (支持 System/User Message)。
-  - `langchain_aliyun_embedding_model.py`: 文本向量化模型测试。
+### 📁 01_models (模型调用)
+- `langchain_aliyun_llms.py`: 基础 LLM 调用示例。
+- `langchain_aliyun_chat_model.py`: Chat Model (对话模型) 调用示例。
+- `langchain_aliyun_embedding_model.py`: 文本向量化 (Embedding) 模型测试。
 
-- **Prompts (提示词模板)**
-  - `langchain_prompt_template.py`: 基础提示词模板 (`PromptTemplate`)。
-  - `langchain_prompt_chat.py`: 聊天提示词模板 (`ChatPromptTemplate`)。
-  - `langchain_prompt_fewshot.py`: 少样本提示词 (`FewShotPromptTemplate`)，让模型通过示例学习。
+### 📁 02_prompts (提示词工程)
+- `langchain_prompt_template.py`: 基础提示词模板 (`PromptTemplate`) 使用。
+- `langchain_prompt_chat.py`: 聊天提示词模板 (`ChatPromptTemplate`) 使用。
+- `langchain_prompt_fewshot.py`: 少样本提示词 (`FewShotPromptTemplate`) 示例。
+- `test_prompt.py`: 提示词测试脚本。
 
-- **Output Parsers (输出解析)**
-  - `langchain_StrOutputParser.py`: 将模型输出直接解析为字符串。
-  - `langchain_JsonOutputParser.py`: 将模型输出解析为 JSON 格式。
+### 📁 03_parsers (输出解析)
+- `langchain_StrOutputParser.py`: 字符串输出解析器。
+- `langchain_JsonOutputParser.py`: JSON 格式输出解析器。
 
-- **Memory (记忆机制)**
-  - `memory_temporary.py`: 临时对话记忆。
-  - `memory_long.py`: 长期记忆实现 (基于文件存储的 `FileChatMessageHistory`)。
+### 📁 04_memory (记忆机制)
+- `memory_temporary.py`: 临时对话记忆 (`InMemoryChatMessageHistory`)。
+- `memory_long.py`: 长期记忆 (`FileChatMessageHistory`)。
+- `langchain_chains.py`: 带有历史记录的对话链示例。
 
-### 3. RAG (检索增强生成) 实战
-- **Vector Store (向量数据库)**
-  - `vector_store_db.py`: 初始化 ChromaDB，加载文档，进行向量化存储。
-  - `vector_stores.py`: 向量数据库的基础操作测试。
+### 📁 05_rag (检索增强生成)
+- `vector_store_db.py`: 初始化向量数据库 (ChromaDB) 并存储数据。
+- `vector_stores.py`: 向量数据库的基础操作测试。
+- `vector_store_RunnablePassthrough.py`: 使用 LCEL 构建完整的 RAG 问答链。
+- `vector_store_prompt_online.py`: 结合在线 Prompt 的 RAG 实现。
 
-- **RAG Chain (检索问答链)**
-  - `vector_store_RunnablePassthrough.py`: 使用 LCEL (LangChain Expression Language) 构建完整的 RAG 链。
-    - 包含：`Retriever` (检索) -> `Prompt` (增强) -> `LLM` (生成) -> `Parser` (解析)。
-  - `vector_store_prompt_online.py`: 结合在线 Prompt 的 RAG 实现。
+### 📁 docs & data
+- `docs/`: 存放项目相关的文档 (如 PDF 教程)。
+- `data/`: 存放运行时产生的数据 (如 `chroma_db` 向量库, `chat_history` 聊天记录)。
 
 ## 📝 学习笔记
 
