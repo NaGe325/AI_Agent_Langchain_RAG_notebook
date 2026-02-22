@@ -1,0 +1,103 @@
+# AI Agent & RAG 学习实战 (基于黑马程序员教程)
+
+本项目是跟随 B站 **黑马程序员** 的《大模型RAG与Agent智能体项目实战》教程的学习实践代码仓库。主要基于 **LangChain** 框架和 **阿里云百炼 (通义千问)** 大模型，从基础的提示词工程到 RAG (检索增强生成) 的完整实现。
+
+## 🛠️ 技术栈
+
+- **语言**: Python 3.10+
+- **框架**: LangChain (Core, Community)
+- **大模型**: 阿里云通义千问 (DashScope / Qwen)
+- **向量数据库**: ChromaDB
+- **Embedding**: DashScope Text Embedding
+
+## 🚀 快速开始
+
+### 1. 环境准备
+
+建议使用 `conda` 或 `venv` 创建虚拟环境。
+
+```bash
+# 创建虚拟环境
+python -m venv .venv
+
+# 激活环境 (Mac/Linux)
+source .venv/bin/activate
+
+# 激活环境 (Windows)
+.venv\Scripts\activate
+```
+
+### 2. 安装依赖
+
+请确保安装了以下核心依赖库：
+
+```bash
+pip install langchain langchain-community langchain-core dashscope chromadb python-dotenv
+```
+
+### 3. 配置环境变量
+
+在项目根目录下创建一个 `.env` 文件，并填入你的阿里云 DashScope API Key：
+
+```properties
+# .env 文件内容
+APIKEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+> 注意：代码中会自动读取 `APIKEY` 并将其设置为 LangChain 和 DashScope 所需的 `DASHSCOPE_API_KEY` 环境变量。
+
+## 📂 项目目录结构说明
+
+本项目代码按照学习路径分为以下几个模块：
+
+### 1. 基础 API 测试
+- `test_api_key.py`: 测试阿里云 API Key 是否配置正确。
+- `test_openAI.py`: 使用 OpenAI 兼容接口调用通义千问模型。
+
+### 2. LangChain 核心组件
+- **Models (模型调用)**
+  - `langchain_aliyun_llms.py`: 基础 LLM 调用。
+  - `langchain_aliyun_chat_model.py`: Chat Model 调用 (支持 System/User Message)。
+  - `langchain_aliyun_embedding_model.py`: 文本向量化模型测试。
+
+- **Prompts (提示词模板)**
+  - `langchain_prompt_template.py`: 基础提示词模板 (`PromptTemplate`)。
+  - `langchain_prompt_chat.py`: 聊天提示词模板 (`ChatPromptTemplate`)。
+  - `langchain_prompt_fewshot.py`: 少样本提示词 (`FewShotPromptTemplate`)，让模型通过示例学习。
+
+- **Output Parsers (输出解析)**
+  - `langchain_StrOutputParser.py`: 将模型输出直接解析为字符串。
+  - `langchain_JsonOutputParser.py`: 将模型输出解析为 JSON 格式。
+
+- **Memory (记忆机制)**
+  - `memory_temporary.py`: 临时对话记忆。
+  - `memory_long.py`: 长期记忆实现 (基于文件存储的 `FileChatMessageHistory`)。
+
+### 3. RAG (检索增强生成) 实战
+- **Vector Store (向量数据库)**
+  - `vector_store_db.py`: 初始化 ChromaDB，加载文档，进行向量化存储。
+  - `vector_stores.py`: 向量数据库的基础操作测试。
+
+- **RAG Chain (检索问答链)**
+  - `vector_store_RunnablePassthrough.py`: 使用 LCEL (LangChain Expression Language) 构建完整的 RAG 链。
+    - 包含：`Retriever` (检索) -> `Prompt` (增强) -> `LLM` (生成) -> `Parser` (解析)。
+  - `vector_store_prompt_online.py`: 结合在线 Prompt 的 RAG 实现。
+
+## 📝 学习笔记
+
+- **API Key 管理**: 统一使用 `.env` 文件管理，通过 `python-dotenv` 加载，避免 Key 泄露。
+- **LangChain LCEL**: 项目中大量使用了 LangChain 的声明式表达语言 (Runnables)，如 `chain = prompt | model | parser`，代码更加简洁易读。
+- **RAG 流程**: 
+  1. **Load**: 加载各类文档 (PDF/Txt/CSV)。
+  2. **Split**: 文本分割。
+  3. **Embed**: 使用 Embedding 模型向量化。
+  4. **Store**: 存入 ChromaDB。
+  5. **Retrieve**: 根据问题检索相关片段。
+  6. **Generate**: LLM 根据检索到的上下文回答问题。
+
+## 🔗 参考资料
+
+- [LangChain 官方文档](https://python.langchain.com/docs/get_started/introduction)
+- [阿里云 DashScope 文档](https://help.aliyun.com/zh/dashscope/developer-reference/api-details)
+- [黑马程序员 B站教程](https://www.bilibili.com/)
+
+
